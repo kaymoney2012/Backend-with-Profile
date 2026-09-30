@@ -1,42 +1,49 @@
 import mongoose, { Schema, type Document } from "mongoose";
 
-
 export interface Iprofile extends Document {
-    name: string;
-    username: string;
-    phone: string;
-    nationality: string;
-    email: string;
-    dateOfBirth: Date;
+  name: string;
+  username: string;
+  phone: string;
+  nationality: string;
+  email: string;
+  dateOfBirth: Date;
 }
 
-const profileSchema = new Schema<Iprofile>({
+const profileSchema = new Schema<Iprofile>(
+  {
     name: {
-        type: String,
+      type: String,
+      trim: true,
     },
     username: {
-        type: String,
-        unique: true,
-        sparse: true,
-    },
-    phone: {
-        type: String,
-        unique: true,
-    },
-    nationality: {
-        type: String,
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
     },
     email: {
-        type: String,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      unique: true,
+      trim: true,
+    },
+    nationality: {
+      type: String,
+      trim: true,
     },
     dateOfBirth: {
-        type: Date,
+      type: Date,
     },
-},
-    {
-        timestamps: true,
-    }
+  },
+  {
+    timestamps: true,
+  },
 );
 
 const profile = mongoose.model<Iprofile>("profile", profileSchema);
