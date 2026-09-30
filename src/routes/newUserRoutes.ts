@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { resendOTP, signin, signup, updateProfile, verifyOTP } from "../controller/newUserController.js";
+import { resendOTP, signin, signup, verifyOTP } from "../controller/authController.js";
+import { updateProfile } from "../controller/profileController.js";
 import { protect } from "../middleware/protect.js";
 
 

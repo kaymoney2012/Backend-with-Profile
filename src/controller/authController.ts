@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import newUser from "../model/newUserModel.js";
+import auth from "../model/authModel.js";
 import bcrypt from "bcryptjs";
 import { sendOtpToEmail } from "../emailService/mailer.js";
 
@@ -34,7 +34,7 @@ export const signup = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    const existingUser = await newUser.findOne({ email });
+    const existingUser = await auth.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({
@@ -46,7 +46,7 @@ export const signup = async (req: Request, res: Response) => {
 
     const otp = generateNewOtp();
 
-    const user = await newUser.create({
+    const user = await auth.create({
       email,
       password: hashPassword,
       otp,
@@ -74,7 +74,7 @@ export const verifyOTP = async (req: Request, res: Response) => {
   try {
     const { email, otp } = req.body;
 
-    const user = await newUser.findOne({ email });
+    const user = await auth.findOne({ email });
 
     if (!user) {
       return res.status(404).json({
@@ -129,7 +129,7 @@ export const resendOTP = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
 
-    const user = await newUser.findOne({ email });
+    const user = await auth.findOne({ email });
 
     if (!user) {
       return res.status(404).json({
@@ -171,7 +171,7 @@ export const signin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // find user
-    const user = await newUser.findOne({ email });
+    const user = await auth.findOne({ email });
 
     if (!user) {
       res.status(401).json({
@@ -224,47 +224,6 @@ export const signin = async (req: Request, res: Response) => {
     res.status(400).json({
       success: false,
       message: "error signing in",
-    });
-  }
-};
-
-// Update Profile
-export const updateProfile = async (req: Request, res: Response) => {
-  try {
-    const { name, username, email, phone, dateOfBirth, nationality } = req.body;
-
-    const currentUserId = (req as any).user?._id;
-    if (!currentUserId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const [existingUsername] = await Promise.all([
-      newUser.findOne({ username, _id: { $ne: currentUserId } }),
-    ]);
-
-    if (existingUsername) {
-      return res.status(400).json({ message: "Username already exists" });
-    }
-
-    const updatedUser = await newUser.findByIdAndUpdate(
-      currentUserId,
-      { name, username, email, phone, dateOfBirth, nationality },
-      { new: true, runValidators: true },
-    );
-
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    return res.status(200).json({
-      message: "Profile updated successfully",
-      user: updatedUser,
-    });
-  } catch (error) {
-    console.error("updateProfile error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Error updating profile",
     });
   }
 };
