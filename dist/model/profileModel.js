@@ -27,7 +27,7 @@ const profileSchema = new Schema({
         trim: true,
     },
     dateOfBirth: {
-        type: Date,
+        type: String,
     },
 }, {
     timestamps: true,

@@ -1,4 +1,5 @@
 import profile from "../model/profileModel.js";
+import auth from "../model/authModel.js";
 export const Profile = async (req, res) => {
     try {
         const { name, username, email, phone, dateOfBirth, nationality } = req.body;
@@ -25,6 +26,7 @@ export const Profile = async (req, res) => {
         return res.status(200).json({
             message: "Profile updated successfully",
             profile: updatedProfile,
+            email: email,
         });
     }
     catch (error) {

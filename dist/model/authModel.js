@@ -21,6 +21,6 @@ const authSchema = new Schema({
 }, {
     timestamps: true,
 });
-const profile = mongoose.model("auth", authSchema);
-export default profile;
+const auth = mongoose.model("auth", authSchema);
+export default auth;
 //# sourceMappingURL=authModel.js.map

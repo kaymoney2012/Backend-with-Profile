@@ -6,7 +6,7 @@ export interface Iprofile extends Document {
   phone: string;
   nationality: string;
   email: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
 }
 
 const profileSchema = new Schema<Iprofile>(
@@ -38,7 +38,7 @@ const profileSchema = new Schema<Iprofile>(
       trim: true,
     },
     dateOfBirth: {
-      type: Date,
+      type: String,
     },
   },
   {

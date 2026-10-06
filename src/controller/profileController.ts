@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import profile from "../model/profileModel.js";
+import auth from "../model/authModel.js";
 
 export const Profile = async (req: Request, res: Response) => {
   try {
@@ -38,6 +39,7 @@ export const Profile = async (req: Request, res: Response) => {
     return res.status(200).json({
       message: "Profile updated successfully",
       profile: updatedProfile,
+      email: email,
     });
   } catch (error: any) {
     if (error?.code === 11000) {

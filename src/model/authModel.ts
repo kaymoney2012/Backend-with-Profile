@@ -34,6 +34,6 @@ const authSchema = new Schema<Iauth>({
     }
 );
 
-const profile = mongoose.model<Iauth>("auth", authSchema);
+const auth = mongoose.model<Iauth>("auth", authSchema);
 
-export default profile;
+export default auth;

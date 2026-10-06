@@ -5,7 +5,7 @@ export interface Iprofile extends Document {
     phone: string;
     nationality: string;
     email: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
 }
 declare const profile: mongoose.Model<Iprofile, {}, {}, {}, Document<unknown, {}, Iprofile, {}, mongoose.DefaultSchemaOptions> & Iprofile & Required<{
     _id: mongoose.Types.ObjectId;
